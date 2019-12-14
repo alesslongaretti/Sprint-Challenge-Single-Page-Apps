@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import CharacterCard from "./CharacterCard";
 import styled from "styled-components";
-import SearchForm from "./SearchForm";
+import SearchForm from "./SearchForm"
 
 const WrapperDiv = styled.div`
 display:flex;
@@ -16,7 +16,14 @@ justify-content:space-around;
 
 export default function CharacterList() {
   const [character, setCharacter] = useState([])
+  const [useData, setUseData] = useState([]);
+
+const search = char => {
+  setUseData(char)
+};
+
   // TODO: Add useState to track data from useEffect
+
 
   useEffect(() => {
     const getCharacter = () => {
@@ -24,6 +31,8 @@ export default function CharacterList() {
       .get('https://rickandmortyapi.com/api/character/')
       .then(response => {
         setCharacter(response.data.results);
+        setUseData(response.data.results);
+
       })
       .catch(error => {
         console.error('Server Error', error);
@@ -36,10 +45,11 @@ export default function CharacterList() {
 
   return (
     <section className="character-list">
-      <SearchForm characters={characters}/>
+      <SearchForm character={character}/>
+  
       <WrapperDiv>
 
-      {character.map(characters => {
+      {useData.map(characters => {
         return (
           <CharacterCard 
           key={characters.id}

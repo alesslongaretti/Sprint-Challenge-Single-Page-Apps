@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 
 
-export default function SearchForm() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState();
+export default function SearchForm(props) {
 
-  useEffect((props) => {}, [searchTerm]);
+  const [searchTerm, setSearchTerm] = useState();
 
-  const handleChange = e => {
-    setSearchTerm(e.target.value);
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
 
-    const results = props.characters.filter(character => {
-      return character.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setSearchResults(results);
+  const submitHandleChange = e => {
+    e.preventDefault();
+  
+  const result = props.characters.filter(char => {
+    return char.name.toLowerCase().indexOf(searchTerm.toLowerCase() !== -1);
+  });
+  props(result);
   };
 
 
- 
   return (
     <section className="search-form">
-      <form>
+      <form onSubmit={submitHandleChange}>
         <label htmlFor="name"> Search: </label>
         <input
         id="name"
@@ -28,16 +29,9 @@ export default function SearchForm() {
         name="textfield"
         placeholder="Search"
         onChange={handleChange}
-        value={searchTerm}
+        // value={search}
         />
       </form>
-      {/* <div>
-        <ul>
-          {searchResults.map(character => {
-            return<li key={character}>{character}</li>
-          })}
-        </ul>
-      </div> */}
-    </section>
-  );
-}
+      </section>
+  );};
+  
